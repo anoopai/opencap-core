@@ -27,6 +27,8 @@ def runScaleTool(pathGenericSetupFile, pathGenericModel, subjectMass,
     pathUpdGenericModel = os.path.join(
         pathOutputFolder, scaledModelNameA[:-5] + "_generic.osim")
     
+    
+    
     # Marker set.
     _, setupFileName = os.path.split(pathGenericSetupFile)
     if 'Lai' in scaledModelName or 'Rajagopal' in scaledModelName:
@@ -49,6 +51,8 @@ def runScaleTool(pathGenericSetupFile, pathGenericModel, subjectMass,
     else:
         raise ValueError("Unknown model type: scaling")
     pathMarkerSet = os.path.join(dirGenericModel, markerSetFileName)
+    
+    print('SAAAAAAAAAA', scaledModelName, pathOutputFolder, markerSetFileName)
     
     # Add the marker set to the generic model and save that updated model.
     opensim.Logger.setLevelString('error')
@@ -125,7 +129,9 @@ def runScaleTool(pathGenericSetupFile, pathGenericModel, subjectMass,
     # Run scale tool.                      
     scaleTool.printToXML(pathOutputSetup)            
     command = 'opensim-cmd -o error' + ' run-tool ' + pathOutputSetup
+    print('AAAAAA')
     os.system(command)
+    print('BBBBB')
     
     # Sanity check
     scaled_model = opensim.Model(pathOutputModel)
@@ -147,7 +153,7 @@ def runScaleTool(pathGenericSetupFile, pathGenericModel, subjectMass,
     if diff_scale > 1:
         exception = "Musculoskeletal model scaling failed; the segment sizes are not anthropometrically realistic. It is very likely that the camera calibration went wrong. Visit https://www.opencap.ai/best-pratices to learn more about camera calibration."
         raise Exception(exception, exception)        
-    
+    print('CCCCCCCCC')
     return pathOutputModel
     
 # %% Inverse kinematics.

@@ -48,6 +48,14 @@ from utilsServer import batchReprocess
 from utilsAPI import getAPIURL
 from utilsAuth import getToken
 
+# %% Process data.
+
+import os
+import sys
+sys.path.append(os.path.abspath('./..'))
+
+from utils import changeSessionMetadata
+
 API_URL = getAPIURL()
 API_TOKEN = getToken()
 
@@ -55,7 +63,9 @@ API_TOKEN = getToken()
 # Enter the identifier(s) of the session(s) you want to reprocess. This is a list of one
 # or more session identifiers. The identifier is found as the 36-character string at the
 # end of the session url: app.opencap.ai/session/<session_id>
-session_ids = ['23d52d41-69fe-47cf-8b60-838e4268dd50']
+# session_ids = ['23d52d41-69fe-47cf-8b60-838e4268dd50']
+
+session_ids = ['88c07931-43a0-4e08-ab4a-30f03d0e7de7']
 
 # Select which trials to reprocess. You can reprocess all trials in the session 
 # by entering None in all fields below. The correct calibration and static
@@ -67,8 +77,8 @@ session_ids = ['23d52d41-69fe-47cf-8b60-838e4268dd50']
 # static_id. A list of strings is allowed for dynamic_trialNames.
 
 calib_id = [] # None (auto-selected trial), [] (skip), or string of specific trial_id
-static_id = [] # None (auto-selected trial), [] (skip), or string of specific trial_id
-dynamic_trialNames = None # None (all dynamic trials), [] (skip), or list of trial names
+static_id = None # None (auto-selected trial), [] (skip), or string of specific trial_id
+dynamic_trialNames = ['P04_OpenCap_week5_trial_4'] # None (all dynamic trials), [] (skip), or list of trial names
 
 # Select which pose estimation model to use; options are 'OpenPose' and 'hrnet'.
 # If the same pose estimation model was used when collecting data with the web
@@ -79,7 +89,7 @@ dynamic_trialNames = None # None (all dynamic trials), [] (skip), or list of tri
 # selected 'hrnet' when collecting data with the web app. You can however re-
 # process data originally collected with 'hrnet' with 'OpenPose' if you have 
 # installed OpenPose locally (see README.md for instructions).
-poseDetector = 'OpenPose'
+poseDetector = 'hrnet'
 
 # OpenPose only:
 # Select the resolution at which the videos are processed. There are no
@@ -106,8 +116,19 @@ resolutionPoseDetection = '1x736'
 deleteLocalFolder = False
       
 
-# %% Process data.
+# Dictionary of metadata fields to change (see sessionMetadata.yaml).
+newMetadata = {
+    'openSimModel':'LaiUhlrich2022',
+    'posemodel':'hrnet',
+    'augmentermodel':'v0.3', 
+    'filterfrequency': 4.0,
+    'datasharing':'Share processed data and identified videos',
+    'scalingsetup': 'any_pose'
+}
+changeSessionMetadata(session_ids,newMetadata)
+
 batchReprocess(session_ids,calib_id,static_id,dynamic_trialNames,
                poseDetector=poseDetector,
                resolutionPoseDetection=resolutionPoseDetection,
-               deleteLocalFolder=deleteLocalFolder)
+               deleteLocalFolder=deleteLocalFolder,
+               cameras_to_use=['all_available'])

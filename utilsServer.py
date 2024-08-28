@@ -6,7 +6,7 @@ import json
 import logging
 
 from main import main
-from utils import getDataDirectory
+from utils import changeSessionMetadata, getDataDirectory
 from utils import getTrialName
 from utils import getTrialJson
 from utils import downloadVideosFromServer
@@ -84,7 +84,7 @@ def processTrial(session_id, trial_id, trial_type = 'dynamic',
                                      trialName = extrinsicTrialName)
         
     elif trial_type == 'static':
-        # delete static files if they exist.
+        # delete static files if they exist. 
         deleteStaticFiles(session_path, staticTrialName = 'neutral')
         
         # Check for calibration to use on django, if not, check for switch calibrations and post result.
@@ -235,7 +235,7 @@ def processTrial(session_id, trial_id, trial_type = 'dynamic',
             error_msg['error_msg_dev'] = e.args[1]
             _ = requests.patch(trial_url, data={"meta": json.dumps(error_msg)},
                    headers = {"Authorization": "Token {}".format(API_TOKEN)})   
-            raise Exception('Dynamic trial failed.\n' + error_msg['error_msg_dev'], e.args[0], e.args[1])
+            raise Exception('Dynamic trial failed.', '\n', error_msg['error_msg_dev'], e.args[0], e.args[1])
         
         if not hasWritePermissions:
             print('You are not the owner of this session, so do not have permission to write results to database.')
@@ -332,7 +332,7 @@ def newSessionSameSetup(session_id_old,session_id_new,extrinsicTrialName='calibr
                      os.path.join(session_path_new,'sessionMetadata.yaml'))
             
     
-def batchReprocess(session_ids,calib_id,static_id,dynamic_trialNames,poseDetector='OpenPose', 
+def batchReprocess(session_ids,calib_id,static_id,dynamic_trialNames,poseDetector='OpenPose',  
                    resolutionPoseDetection='1x736',deleteLocalFolder=True,
                    isServer=False, use_existing_pose_pickle=True,
                    cameras_to_use=['all']):
@@ -356,12 +356,13 @@ def batchReprocess(session_ids,calib_id,static_id,dynamic_trialNames,poseDetecto
                      headers = {"Authorization": "Token {}".format(API_TOKEN)}).json()
         hasWritePermissions = permissions['isAdmin'] or permissions['isOwner']
 
+        # newMetadata = {'openSimModel': 'LaiUhlrich2022_NHE'}
+        # changeSessionMetadata(session_ids, newMetadata)
 
         if calib_id == None:
             calib_id_toProcess = getCalibrationTrialID(session_id)
         else:
             calib_id_toProcess = calib_id
-        
         if len(calib_id_toProcess) > 0:
             try:
                 processTrial(session_id,
@@ -420,7 +421,7 @@ def batchReprocess(session_ids,calib_id,static_id,dynamic_trialNames,poseDetecto
         
         for dID in dynamic_ids_toProcess:
             try:
-                processTrial(session_id,
+                processTrial(session_id, 
                           dID,
                           trial_type="dynamic",
                           resolutionPoseDetection = resolutionPoseDetection,

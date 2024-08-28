@@ -1071,7 +1071,9 @@ def synchronizeVideoKeypoints(keypointList, confidenceList,
     except:
         isGait = False
         print('Detect gait activity algorithm failed.')
-    
+    if isGait:
+        isGait = False
+        
     # Detect activity, which determines sync function that gets used
     isHandPunch,handForPunch = detectHandPunchAllVideos(handPunchVertPositionList,sampleFreq)
     if isHandPunch:
@@ -1089,7 +1091,7 @@ def synchronizeVideoKeypoints(keypointList, confidenceList,
         filtFreq = filtFreqs['gait']
     else: 
         filtFreq = filtFreqs['default']
-    
+        
     # Filter keypoint data
     # sdKernel = sampleFreq/(2*np.pi*filtFreq) # not currently used, but in case using gaussian smoother (smoothKeypoints function) instead of butterworth to filter keypoints
     keyFiltList = []
@@ -1914,7 +1916,10 @@ def smoothKeypoints(key2D,sdKernel=1):
 # %% 
 def filterKeypointsButterworth(key2D,filtFreq,sampleFreq,order=4):
     key2D_out = np.copy(key2D)
+    if type(filtFreq) == str:
+        filtFreq = float(filtFreq)
     wn = filtFreq/(sampleFreq/2)
+    
     if wn>1:
         print('You tried to filter ' + str(int(sampleFreq)) + ' Hz signal with cutoff freq of ' + str(int(filtFreq)) + '. Will filter at ' + str(int(sampleFreq/2)) + ' instead.')
         wn=0.99

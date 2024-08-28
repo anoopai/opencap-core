@@ -1,0 +1,8 @@
+        
+Main.py:
+On the OpenCap: Error: Error - less than 10 good frames of triangulated data.'
+if keypoints3D.shape[2] < 5: # original was 10
+    e1 = 'Error - less than 10 good frames of triangulated data.'
+    raise Exception(e1,e1)
+
+Error: Cam2: not same person at 726

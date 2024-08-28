@@ -443,7 +443,7 @@ def main(sessionName, trialName, trial_id, cameras_to_use=['all'],
                 raise Exception(exception, traceback.format_exc())
         
         # Throw an error if not enough data
-        if keypoints3D.shape[2] < 10:
+        if keypoints3D.shape[2] < 5: # original was 10
             e1 = 'Error - less than 10 good frames of triangulated data.'
             raise Exception(e1,e1)
     
@@ -512,6 +512,8 @@ def main(sessionName, trialName, trial_id, cameras_to_use=['all'],
         # Check if shoulder model.
         if 'shoulder' in sessionMetadata['openSimModel']:
             suffix_model = '_shoulder'
+        elif 'NHE' in sessionMetadata['openSimModel']:
+            suffix_model = '_NHE'
         else:
             suffix_model = ''
         
@@ -581,6 +583,7 @@ def main(sessionName, trialName, trial_id, cameras_to_use=['all'],
             pathScaledModel = os.path.join(outputScaledModelDir, 
                                             sessionMetadata['openSimModel'] + 
                                             "_scaled.osim")
+            
             if os.path.exists(pathScaledModel):
                 # Path setup file.
                 genericSetupFile4IKName = 'Setup_IK{}.xml'.format(suffix_model)
