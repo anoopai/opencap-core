@@ -38,7 +38,6 @@ The available options for metadata are:
                         Share processed data
                         Share no data
 
-
 """
 import os
 import sys
@@ -50,11 +49,11 @@ session_ids = ['88c07931-43a0-4e08-ab4a-30f03d0e7de7']
 
 # Dictionary of metadata fields to change (see sessionMetadata.yaml).
 newMetadata = {
-    'openSimModel':'LaiUhlrich2022_NHE',
+    'openSimModel':'LaiUhlrich2022',
     'posemodel':'hrnet',
     'augmentermodel':'v0.3', 
     'filterfrequency': 4.0,
     'datasharing':'Share processed data and identified videos',
-    'scalingsetup': 'upright_standing_pose'
+    'scalingsetup': 'any_pose'
 }
 changeSessionMetadata(session_ids,newMetadata) 

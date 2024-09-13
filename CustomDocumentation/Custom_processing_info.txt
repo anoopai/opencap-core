@@ -1,0 +1,7 @@
+I. Scaling
+1. Default scaling from OpenCap. 
+
+II. Inverse Kinematics
+1. Modified marker tracking weights in Setup_IK_NHE.xml file
+    - Did not track the following markers. Set weights to '0', and tracking to 'false'
+    - toe_study, 5meta_study, calc_study, lelblow_study, melbow_study, lwriststudy, mwrist_study for right(r) and left(L) sides

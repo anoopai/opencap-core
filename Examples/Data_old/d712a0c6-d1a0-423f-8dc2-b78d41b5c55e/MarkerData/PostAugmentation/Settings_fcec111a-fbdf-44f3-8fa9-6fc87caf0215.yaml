@@ -1,0 +1,12 @@
+augmenter_model: v0.3
+bbox_thr: 0.8
+camerasToUse:
+- Cam2
+- Cam1
+- Cam0
+filterFrequency: 4.0
+imageUpsampleFactor: 4
+openSimModel: LaiUhlrich2022_NHE
+poseDetector: mmpose
+scalingSetup: any_pose
+verticalOffset: -0.2702037887382508

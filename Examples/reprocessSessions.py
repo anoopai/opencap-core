@@ -65,7 +65,7 @@ API_TOKEN = getToken()
 # end of the session url: app.opencap.ai/session/<session_id>
 # session_ids = ['23d52d41-69fe-47cf-8b60-838e4268dd50']
 
-session_ids = ['88c07931-43a0-4e08-ab4a-30f03d0e7de7']
+session_ids = ['701253a0-c239-48ab-b02e-634e3c472faa']
 
 # Select which trials to reprocess. You can reprocess all trials in the session 
 # by entering None in all fields below. The correct calibration and static
@@ -78,7 +78,7 @@ session_ids = ['88c07931-43a0-4e08-ab4a-30f03d0e7de7']
 
 calib_id = [] # None (auto-selected trial), [] (skip), or string of specific trial_id
 static_id = None # None (auto-selected trial), [] (skip), or string of specific trial_id
-dynamic_trialNames = ['P04_OpenCap_week5_trial_4'] # None (all dynamic trials), [] (skip), or list of trial names
+dynamic_trialNames = ['None'] # None (all dynamic trials), [] (skip), or list of trial names
 
 # Select which pose estimation model to use; options are 'OpenPose' and 'hrnet'.
 # If the same pose estimation model was used when collecting data with the web
@@ -118,7 +118,7 @@ deleteLocalFolder = False
 
 # Dictionary of metadata fields to change (see sessionMetadata.yaml).
 newMetadata = {
-    'openSimModel':'LaiUhlrich2022',
+    'openSimModel':'LaiUhlrich2022_NHE',
     'posemodel':'hrnet',
     'augmentermodel':'v0.3', 
     'filterfrequency': 4.0,
